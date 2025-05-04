@@ -5,7 +5,7 @@ Projeto Integrador Interdisciplinar de alunos do curso de Ciência da Computaç�
 | R.A   | Nome |
 | -------- | ------- |
 | 24.00003-5  | Rafael Alvarez de Carvalho Ruthes    |
-|  | Matheus     |
+| 23.01178-5 | Matheus da Cunha Castilho     |
 | 21.01576-7    | Gabriel Borges Silva    |
 
 ### Objetivo do projeto
