@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cssTelaDePedidos.css">
+</head>
+<body>
+    <div class="container">
+        <div class="main-content-box">
+            <div class="pedidos-container">
+                <!-- Botão de voltar -->
+                <a href="javascript:history.back()" class="botao-voltar">
+                    <span class="icone-voltar">&#8592;</span>
+                    <span>Voltar</span>
+                </a>
+                
+                <!-- Título da página -->
+                <div class="titulo-pedidos">
+                    <h1>Pedidos</h1>
+                </div>
+                
+                <!-- Tabela de pedidos -->
+                <div class="tabela-container">
+                    <table class="tabela-pedidos">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Itens</th>
+                                <th>Horário do Pedido</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Pedido 1 -->
+                            <tr>
+                                <td>João Silva</td>
+                                <td>1x Hambúrguer Clássico</td>
+                                <td>14:30</td>
+                                <td><span class="status-pendente">Pendente</span></td>
+                            </tr>
+                            
+                            <!-- Pedido 2 -->
+                            <tr>
+                                <td>Maria Oliveira</td>
+                                <td>1x Pizza Margherita, 2x Refrigerante</td>
+                                <td>14:15</td>
+                                <td><span class="status-preparando">Preparando</span></td>
+                            </tr>
+                            
+                            <!-- Pedido 3 -->
+                            <tr>
+                                <td>Carlos Santos</td>
+                                <td>2x Salada Caesar, 1x Suco Natural</td>
+                                <td>13:45</td>
+                                <td><span class="status-entregue">Entregue</span></td>
+                            </tr>
+                            
+                            <!-- Pedido 4 -->
+                            <tr>
+                                <td>Ana Costa</td>
+                                <td>1x Macarrão à Carbonara, 1x Vinho Tinto</td>
+                                <td>13:30</td>
+                                <td><span class="status-cancelado">Cancelado</span></td>
+                            </tr>
+                            
+                            <!-- Pedido 5 -->
+                            <tr>
+                                <td>Paulo Mendes</td>
+                                <td>3x Hambúrguer Duplo, 3x Batata Frita</td>
+                                <td>13:15</td>
+                                <td><span class="status-entregue">Entregue</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="rodape">
+        © <script>document.write(new Date().getFullYear())</script> - Todos os direitos reservados
+    </footer>
+</body>
+</html>

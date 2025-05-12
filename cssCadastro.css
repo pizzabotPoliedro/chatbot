@@ -1,0 +1,238 @@
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Arial', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #222 0%, #111 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Elementos de fundo decorativos */
+body::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(246, 212, 76, 0.15);
+    border-radius: 50%;
+    top: -100px;
+    right: -100px;
+    z-index: -1;
+    filter: blur(30px);
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: rgba(246, 212, 76, 0.1);
+    border-radius: 50%;
+    bottom: -100px;
+    left: -100px;
+    z-index: -1;
+    filter: blur(30px);
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.cadastro-box {
+    background: linear-gradient(170deg, #F6D44C 0%, #E9B949 100%);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.cadastro-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    z-index: 1;
+    pointer-events: none;
+}
+
+h1 {
+    color: #333;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    line-height: 1.2;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: #9e8a28;
+}
+
+h1 span {
+    font-weight: 400;
+    font-size: 22px;
+    display: block;
+    margin-top: 5px;
+    color: #5a4e17;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.form-input {
+    flex: 1;
+    padding: 14px;
+    border: 1px solid rgba(158, 138, 40, 0.3);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #9e8a28;
+    box-shadow: 0 0 10px rgba(158, 138, 40, 0.4);
+    background-color: white;
+    transform: translateY(-2px);
+}
+
+.form-input::placeholder {
+    color: #aaa;
+}
+
+.btn-cadastrar {
+    width: 220px;
+    padding: 16px;
+    background: linear-gradient(45deg, #9e8a28, #b19e35);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(158, 138, 40, 0.4);
+}
+
+.btn-cadastrar:hover {
+    background: linear-gradient(45deg, #7e6c1e, #9e8a28);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(158, 138, 40, 0.6);
+}
+
+.btn-cadastrar:active {
+    transform: translateY(-1px);
+}
+
+.btn-cadastrar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: 0.6s;
+}
+
+.btn-cadastrar:hover::after {
+    transform: translateX(100%);
+}
+
+.login-link {
+    margin-top: 30px;
+    font-size: 15px;
+    color: #333;
+    text-align: center;
+    font-weight: 500;
+}
+
+.login-link a {
+    color: #7e6c1e;
+    text-decoration: none;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 2px;
+    transition: all 0.3s ease;
+}
+
+.login-link a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #7e6c1e;
+    transition: width 0.3s ease;
+}
+
+.login-link a:hover {
+    color: #5a4e17;
+}
+
+.login-link a:hover::after {
+    width: 100%;
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .cadastro-box {
+        padding: 25px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    h1 span {
+        font-size: 18px;
+    }
+    
+    .btn-cadastrar {
+        width: 100%;
+    }
+}
+

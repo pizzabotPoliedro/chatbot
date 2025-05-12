@@ -1,0 +1,256 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Arial', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #222 0%, #111 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow-x: hidden;
+    flex-direction: column;
+}
+
+/* Elementos de fundo decorativos */
+body::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(246, 212, 76, 0.15);
+    border-radius: 50%;
+    top: -100px;
+    right: -100px;
+    z-index: -1;
+    filter: blur(30px);
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: rgba(246, 212, 76, 0.1);
+    border-radius: 50%;
+    bottom: -100px;
+    left: -100px;
+    z-index: -1;
+    filter: blur(30px);
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-content-box {
+    background: linear-gradient(170deg, #F6D44C 0%, #E9B949 100%);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.main-content-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.perfil-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Estilo para o botão de voltar */
+.botao-voltar {
+    display: inline-flex;
+    align-items: center;
+    background-color: #9e8a28;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.botao-voltar:hover {
+    background-color: #8a7822;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.botao-voltar:active {
+    transform: translateY(0);
+}
+
+.icone-voltar {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.saudacao {
+    margin-bottom: 30px;
+}
+
+.saudacao h2 {
+    color: #333;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.nome-funcionario {
+    color: #9e8a28;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.perfil-dados-container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.perfil-imagem-container {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #9e8a28;
+}
+
+.perfil-imagem {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dados-container {
+    flex-grow: 1;
+}
+
+.dados-titulo {
+    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.dados-titulo::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 60px;
+    height: 3px;
+    background-color: #9e8a28;
+}
+
+.dados-tabela {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dados-tabela tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dados-tabela tr:last-child {
+    border-bottom: none;
+}
+
+.dados-tabela td {
+    padding: 10px 0;
+}
+
+.campo {
+    font-weight: 600;
+    color: #333;
+    width: 40%;
+}
+
+.valor {
+    color: #555;
+}
+
+.rodape {
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: rgba(246, 212, 76, 0.6);
+    margin-top: auto;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .perfil-dados-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .dados-titulo::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .dados-tabela {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .perfil-imagem-container {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content-box {
+        padding: 30px 20px;
+    }
+    
+    .saudacao h2 {
+        font-size: 20px;
+    }
+    
+    .nome-funcionario {
+        font-size: 26px;
+    }
+    
+    .dados-titulo {
+        font-size: 20px;
+    }
+    
+    .botao-voltar {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}

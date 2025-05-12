@@ -1,0 +1,54 @@
+<script>
+        // Script simples para adicionar mensagens
+        document.querySelector('.enviar-botao').addEventListener('click', function() {
+            const input = document.querySelector('.mensagem-input');
+            const mensagem = input.value.trim();
+            
+            if (mensagem) {
+                // Cria a mensagem do usuário
+                const mensagensContainer = document.querySelector('.mensagens-container');
+                const novaMensagemUsuario = document.createElement('div');
+                novaMensagemUsuario.className = 'mensagem usuario-mensagem';
+                novaMensagemUsuario.innerHTML = `
+                    <div class="mensagem-conteudo">
+                        <p>${mensagem}</p>
+                    </div>
+                    <div class="mensagem-avatar">
+                        <div class="usuario-avatar">👤</div>
+                    </div>
+                `;
+                mensagensContainer.appendChild(novaMensagemUsuario);
+                
+                // Limpa o input
+                input.value = '';
+                
+                // Simula resposta do bot após 1 segundo
+                setTimeout(function() {
+                    const respostaBot = document.createElement('div');
+                    respostaBot.className = 'mensagem bot-mensagem';
+                    respostaBot.innerHTML = `
+                        <div class="mensagem-avatar">
+                            <div class="bot-avatar">🤖</div>
+                        </div>
+                        <div class="mensagem-conteudo">
+                            <p>Estou processando sua solicitação: "${mensagem}"</p>
+                        </div>
+                    `;
+                    mensagensContainer.appendChild(respostaBot);
+                    
+                    // Rolagem automática para a última mensagem
+                    mensagensContainer.scrollTop = mensagensContainer.scrollHeight;
+                }, 1000);
+                
+                // Rolagem automática para a última mensagem
+                mensagensContainer.scrollTop = mensagensContainer.scrollHeight;
+            }
+        });
+        
+        // Permite enviar mensagem com Enter
+        document.querySelector('.mensagem-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.enviar-botao').click();
+            }
+        });
+    </script>

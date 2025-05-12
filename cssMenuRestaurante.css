@@ -1,0 +1,222 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Arial', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #222 0%, #111 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow-x: hidden;
+    flex-direction: column;
+}
+
+/* Elementos de fundo decorativos */
+body::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(246, 212, 76, 0.15);
+    border-radius: 50%;
+    top: -100px;
+    right: -100px;
+    z-index: -1;
+    filter: blur(30px);
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: rgba(246, 212, 76, 0.1);
+    border-radius: 50%;
+    bottom: -100px;
+    left: -100px;
+    z-index: -1;
+    filter: blur(30px);
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-content-box {
+    background: linear-gradient(170deg, #F6D44C 0%, #E9B949 100%);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-content-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.titulo {
+    color: #333;
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 50px;
+    line-height: 1.2;
+    position: relative;
+    text-align: center;
+}
+
+.titulo .destaque {
+    font-weight: 700;
+    display: block;
+    margin-top: 5px;
+    color: #9e8a28;
+}
+
+.botoes-container {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 50px;
+    position: relative;
+    z-index: 2;
+}
+
+.botao-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.botao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(45deg, #9e8a28, #b19e35);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(158, 138, 40, 0.4);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.botao:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(158, 138, 40, 0.6);
+}
+
+.shine-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: 0.6s;
+}
+
+.botao:hover .shine-effect {
+    transform: translateX(100%);
+}
+
+.icon-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.icone {
+    width: 35px;
+    height: 35px;
+    color: white;
+}
+
+.rodape {
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: rgba(246, 212, 76, 0.6);
+    margin-top: auto;
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 768px) {
+    .titulo {
+        font-size: 36px;
+    }
+    
+    .botoes-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .botao {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .icone {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo {
+        font-size: 28px;
+    }
+    
+    .main-content-box {
+        padding: 30px 20px;
+    }
+    
+    .botao {
+        width: 160px;
+        height: 160px;
+    }
+}

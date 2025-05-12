@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cssTelaChatbot.css">
+</head>
+<body>
+    <div class="container">
+        <div class="main-content-box">
+            <div class="chat-container">
+                <!-- Botão de voltar -->
+                <a href="javascript:history.back()" class="botao-voltar">
+                    <span class="icone-voltar">&#8592;</span>
+                    <span>Voltar</span>
+                </a>
+                
+                <!-- Título da página -->
+                <div class="titulo-chat">
+                    <h1>Assistente Virtual</h1>
+                </div>
+                
+                <!-- Área de mensagens -->
+                <div class="mensagens-container">
+                    <!-- Mensagem do bot -->
+                    <div class="mensagem bot-mensagem">
+                        <div class="mensagem-avatar">
+                            <div class="bot-avatar">🤖</div>
+                        </div>
+                        <div class="mensagem-conteudo">
+                            <p>Olá! Como posso ajudar você hoje?</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Mensagem do usuário -->
+                    <div class="mensagem usuario-mensagem">
+                        <div class="mensagem-conteudo">
+                            <p>Oi! Gostaria de saber o cardápio do dia.</p>
+                        </div>
+                        <div class="mensagem-avatar">
+                            <div class="usuario-avatar">👤</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mensagem do bot -->
+                    <div class="mensagem bot-mensagem">
+                        <div class="mensagem-avatar">
+                            <div class="bot-avatar">🤖</div>
+                        </div>
+                        <div class="mensagem-conteudo">
+                            <p>Claro! Hoje temos hambúrguer clássico, pizza margherita, salada caesar e macarrão à carbonara. Gostaria de fazer um pedido?</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Área de entrada de mensagem -->
+                <div class="input-container">
+                    <input type="text" class="mensagem-input" placeholder="Digite sua mensagem...">
+                    <button class="enviar-botao">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="rodape">
+        © <script>document.write(new Date().getFullYear())</script> - Todos os direitos reservados
+    </footer>
+
+    
+</body>
+</html>
