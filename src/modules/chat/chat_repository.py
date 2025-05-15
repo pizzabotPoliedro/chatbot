@@ -1,12 +1,15 @@
-from langchain.chat_models import ChatOpenAI
-from langchain.schema import SystemMessage, HumanMessage, AIMessage
 import os
-class ChatRepository():
-    openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
-    openrouter_url = os.getenv("OPENROUTER_URL")
-    model_name = os.getenv("MODEL_NAME")
-    temperature = os.getenv("TEMPERATURE")
-    menu = """
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+from langchain_openai import ChatOpenAI
+
+class ChatRepository:
+    def __init__(self):
+        self.openai_api_key = os.getenv("OPENAI_API_KEY") or os.getenv("OPENROUTER_API_KEY")
+        self.openai_api_base = os.getenv("OPENROUTER_URL")
+        self.model_name = os.getenv("MODEL_NAME", "gpt-3.5-turbo")
+        self.temperature = float(os.getenv("TEMPERATURE", "0.7"))
+
+        self.menu = """
         Cardápio:
         - **Margherita**: Molho de tomate, mussarela e manjericão fresco.
         - **Pepperoni**: Molho de tomate, mussarela e fatias de pepperoni.
@@ -18,9 +21,9 @@ class ChatRepository():
         - **Havaiana**: Molho de tomate, mussarela, presunto e abacaxi.
         - **Mexicana**: Molho de tomate, mussarela, carne moída temperada, pimenta jalapeño e cebola.
         - **Doce de Chocolate com Morango**: Chocolate derretido, morangos frescos e açúcar de confeiteiro.
-    """
+        """
 
-    horarios_de_funcionamento = """
+        self.horarios_de_funcionamento = """
         Horários de funcionamento:
         - Segunda-Feira: 17:00 às 23:00
         - Terça-Feira: 17:00 às 23:00
@@ -31,32 +34,36 @@ class ChatRepository():
         - Domingo-Feira: 17:00 às 02:00
         """
 
-    faq = """
+        self.faq = """
         Dúvidas comuns:
         - Qual o nome do restaurante? -> Resposta: O nome do restaurante é TesteRestaurante
         - Qual seu nome? -> Resposta: RestauranteBot Poliedro
         - Quem é você? -> Resposta: Sou o RestauranteBot Poliedro, um robô inteligente responsável por tirar as dúvidas dos clientes sobre o restaurante {nome do restaurante aqui}!
         """
 
-    llm = ChatOpenAI(
-        model=model_name,
-        temperature=temperature,
-        openai_api_key=openrouter_api_key,
-        openai_api_base= openrouter_url
-    )
+        self.llm = ChatOpenAI(
+            model=self.model_name,
+            temperature=self.temperature,
+            openai_api_key=self.openai_api_key,
+            openai_api_base=self.openai_api_base,
+        )
+
     def chat(self, message, session_id):
-        history = [HumanMessage("meu nome é matheus."), AIMessage("Entendido, vou te chamar de Matheus a partir de agora.")]
+        history = [
+            HumanMessage(content="meu nome é matheus."),
+            AIMessage(content="Entendido, vou te chamar de Matheus a partir de agora.")
+        ]
 
         messages = [
-                SystemMessage(content=f"""
+            SystemMessage(content=f"""
                 Você é um assistente de um restaurante, que não consegue anotar pedidos nem realizar encomendas de pedidos ou algo do tipo, você apenas responde as dúvidas dos clientes sobre o restaurante.
                 Aqui está o cardápio atual: {self.menu}.
-                Aqui está os horários de funcionamento: {self.horarios_de_funcionamento}.
-                Aqui está as perguntas mais comuns dos clientes seguido de sua devida resposta: {self.faq}""")
-            ] + history + [
-                HumanMessage(content=message)
-            ]
+                Aqui estão os horários de funcionamento: {self.horarios_de_funcionamento}.
+                Aqui estão as perguntas mais comuns dos clientes seguidas de suas respectivas respostas: {self.faq}
+            """)
+        ] + history + [
+            HumanMessage(content=message)
+        ]
 
-        response = self.llm(messages)
-        ai_message = response.content
-        return ai_message
+        response = self.llm.invoke(messages)
+        return response.content

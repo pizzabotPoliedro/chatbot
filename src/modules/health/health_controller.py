@@ -12,3 +12,4 @@ def health_check():
     
     status_code = 200 if result['status'] else 503
     return result, status_code
+
