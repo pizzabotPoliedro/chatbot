@@ -1,11 +1,15 @@
+from datetime import datetime, timedelta, timezone
+import os
 from src.modules.users.users_viewmodel import UsersViewModel
 from src.shared.entities.user import User
 from src.modules.users.users_repository import UsersRepository
 import bcrypt
+import jwt
 
 class UsersUseCase:
     def __init__(self, repo: UsersRepository):
         self.repo = repo
+        self.secret_key = os.getenv("SECRET_KEY")
 
     def create(self, data: dict):
         password = data["password"]
@@ -74,3 +78,28 @@ class UsersUseCase:
     def get_restaurants(self):
         return self.repo.get_restaurants()
 
+    def login(self, email: str, password: str):
+        user = self.repo.get_by_email(email)
+        if not user:
+            raise Exception("Usuário não encontrado")
+        
+        if not bcrypt.checkpw(password.encode("utf-8"), user["password_hash"]):
+            raise Exception("Senha incorreta")
+        
+        payload = {
+            "sub": user["_id"],
+            "email": user["email"],
+            "exp": datetime.now(timezone.utc) + timedelta(minutes=1440)
+        }
+        token = jwt.encode(payload, self.secret_key, algorithm="HS256")
+        print(token)
+        return {"token": token}
+    
+    def verify_token(self, token: str):
+        try:
+            payload = jwt.decode(token, self.secret_key, algorithms=["HS256"])
+            return { "valid": True }
+        except jwt.ExpiredSignatureError:
+            return { "valid": False }
+        except jwt.InvalidTokenError:
+            return { "valid": False }

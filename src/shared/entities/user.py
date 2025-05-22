@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 from pydantic import BaseModel, Field
+from typing import Optional
 
 class User(BaseModel):
     name: str
@@ -8,6 +9,6 @@ class User(BaseModel):
     password_hash: bytes
     restaurant: bool
     admin: bool
-    image: str = None
+    image: Optional[str] = None
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))

@@ -119,9 +119,10 @@ class UsersRepository:
         return users
 
     def get_by_email(self, email):
-        user = self.users.find_one({"email": email}, {'password_hash': 0, 'image': 0})
+        user = self.users.find_one({"email": email}, {'image': 0})
         if user:
             user['_id'] = str(user['_id'])
+            user['password_hash'] = str(user['password_hash'])
         return user
 
     def get_restaurants(self):

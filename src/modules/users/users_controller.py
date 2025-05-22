@@ -36,6 +36,10 @@ def create_user():
     repository = UsersRepository()
     usecase = UsersUseCase(repository)
     data = request.form.to_dict()
+
+    if "image" not in data:
+        data["image"] = None
+
     if 'image' in request.files:
         image_bytes = request.files['image'].read()
         data["image"] = image_to_base64(image_bytes)
@@ -91,3 +95,51 @@ def update_user_schedule(email):
         return {"message": "Horário atualizado com sucesso"}, 200
     except Exception as e:
         return {"error": str(e)}, 400
+    
+@users_bp.route('/login', methods=['POST'])
+def login():
+    repository = UsersRepository()
+    usecase = UsersUseCase(repository)
+    data = request.form.to_dict()
+    email = data.get("email")
+    password = data.get("password")
+
+    try:
+        token = usecase.login(email, password)
+        return token, 200
+    except Exception as e:
+        return {"error": str(e)}, 400
+    
+@users_bp.route('/verify-token', methods=['POST'])
+def token():
+    repository = UsersRepository()
+    usecase = UsersUseCase(repository)
+    data = request.form.to_dict()
+    token = data.get("token")
+
+    try:
+        token = usecase.verify_token(token)
+        return token, 200
+    except Exception as e:
+        return {"error": str(e)}, 400
+    
+@users_bp.route('/signup', methods=['POST'])
+def signup():
+    repository = UsersRepository()
+    usecase = UsersUseCase(repository)
+    data = request.form.to_dict()
+
+    if "image" not in data:
+        data["image"] = None
+        
+    if 'image' in request.files:
+        image_bytes = request.files['image'].read()
+        data["image"] = image_to_base64(image_bytes)
+    else:
+        data["image"] = None
+
+    try:
+        result = usecase.create(data=data)
+        return {"success": True, "message": "Usuário criado com sucesso", "data": result}, 201
+    except Exception as e:
+        return {"success": False, "error": str(e)}, 400
