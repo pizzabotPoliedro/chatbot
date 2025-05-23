@@ -89,6 +89,7 @@ class UsersUseCase:
         payload = {
             "sub": user["_id"],
             "email": user["email"],
+            "restaurant": user["restaurant"],
             "exp": datetime.now(timezone.utc) + timedelta(minutes=1440)
         }
         token = jwt.encode(payload, self.secret_key, algorithm="HS256")
