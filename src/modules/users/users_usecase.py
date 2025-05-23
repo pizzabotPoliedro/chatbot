@@ -79,7 +79,7 @@ class UsersUseCase:
         return self.repo.get_restaurants()
 
     def login(self, email: str, password: str):
-        user = self.repo.get_by_email(email)
+        user = self.repo.get_user_to_login(email)
         if not user:
             raise Exception("Usuário não encontrado")
         

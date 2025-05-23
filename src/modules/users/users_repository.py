@@ -131,4 +131,9 @@ class UsersRepository:
             restaurant['_id'] = str(restaurant['_id'])
         return restaurants
 
+    def get_user_to_login(self, email):
+        user = self.users.find_one({"email": email}, {'image': 0})
+        if user:
+            user['_id'] = str(user['_id'])
+        return user
         
