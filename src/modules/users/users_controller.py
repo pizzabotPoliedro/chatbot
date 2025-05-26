@@ -154,3 +154,49 @@ def get_schedule(email):
         return schedule, 200
     except Exception as e:
         return {"error": str(e)}, 400
+    
+@users_bp.route('/menu', methods=['POST'])
+def add_item_to_menu():
+    repository = UsersRepository()
+    usecase = UsersUseCase(repository)
+
+    data = request.form.to_dict()
+
+    required_fields = ['name', 'price', 'description', 'restaurant_id']
+    for field in required_fields:
+        if field not in data or not data[field]:
+            return {"error": f"Campo '{field}' é obrigatório"}, 400
+
+    if 'image' in request.files:
+        image_bytes = request.files['image'].read()
+        data['image'] = image_to_base64(image_bytes)
+    else:
+        data['image'] = None
+
+    item = {
+        "name": data['name'],
+        "price": data['price'],
+        "description": data['description'],
+        "image": data['image'],
+        "restaurant_id": data['restaurant_id']
+    }
+
+    try:
+        result = usecase.add_item_to_menu(item)
+        return {"message": "Item adicionado ao menu com sucesso"}, 201
+    except Exception as e:
+        return {"error": str(e)}, 400
+
+@users_bp.route('/menu/<id>', methods=['DELETE'])
+def delete_item(id):
+    repository = UsersRepository()
+    usecase = UsersUseCase(repository)
+    result = usecase.delete_item(id)
+    return result, 200
+
+@users_bp.route('/menu/<id>', methods=['GET'])
+def get_menu(id):
+    repository = UsersRepository()
+    usecase = UsersUseCase(repository)
+    result = usecase.get_menu(id)
+    return result, 200

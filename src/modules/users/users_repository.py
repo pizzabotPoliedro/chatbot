@@ -3,7 +3,7 @@ import bcrypt
 from pymongo import MongoClient
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from langchain_openai import ChatOpenAI
-
+from bson.objectid import ObjectId
 from src.shared.entities.user import User
 
 class UsersRepository:
@@ -12,6 +12,7 @@ class UsersRepository:
         self.database = self.client[os.getenv("DATABASE_NAME")]
         self.users = self.database["users"]
         self.schedule = self.database["schedules"]
+        self.items = self.database["items"]
 
     def create(self, user: dict):
         email_exist = self.users.find_one({"email": user["email"]})
@@ -147,3 +148,35 @@ class UsersRepository:
         schedule["restaurant_id"] = str(schedule["restaurant_id"])
         
         return schedule
+
+    def add_item_to_menu(self, item):
+        add_item = self.items.insert_one(item)
+        return True
+    
+    def delete_item(self, item_id):
+        try:
+            object_id = ObjectId(item_id)
+        except:
+            raise Exception("ID de item inválido")
+
+        item = self.items.find_one({"_id": object_id})
+        if not item:
+            raise Exception("Item não encontrado")
+
+        result = self.items.delete_one({"_id": object_id})
+        if result.deleted_count == 0:
+            raise Exception("Erro ao deletar item")
+        return {"message": "Item deletado com sucesso"}
+    
+    def get_menu(self, restaurant_id):
+
+        items = list(self.items.find({"restaurant_id": restaurant_id}))
+        for item in items:
+            item["_id"] = str(item["_id"])
+            if "image" in item and item["image"]:
+                item["image"] = item["image"]
+        
+        if not items:
+            raise Exception("Nenhum item encontrado para este restaurante")
+        
+        return {"items": items, "restaurant_id": restaurant_id}

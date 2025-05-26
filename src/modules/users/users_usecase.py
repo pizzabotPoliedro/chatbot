@@ -113,3 +113,24 @@ class UsersUseCase:
             return schedule
         except Exception as e:
             return e
+        
+    def add_item_to_menu(self, item: dict):
+        try:
+            item = self.repo.add_item_to_menu(item)
+            return item
+        except Exception as e:
+            return e
+        
+    def delete_item(self, item_id: str):
+        try:
+            result = self.repo.delete_item(item_id)
+            return result
+        except Exception as e:
+            return e
+        
+    def get_menu(self, restaurant_id: str):
+        try:
+            menu = self.repo.get_menu(restaurant_id)
+            return menu
+        except Exception as e:
+            raise e
