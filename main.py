@@ -20,4 +20,4 @@ app.register_blueprint(users_bp)
 
 if __name__ == '__main__':
     Environments()
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
