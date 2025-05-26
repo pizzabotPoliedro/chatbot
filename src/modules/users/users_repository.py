@@ -94,20 +94,17 @@ class UsersRepository:
             raise Exception("Erro ao atualizar usuário")
         return True
         
-    def update_schedule(self, restaurant_id, day, open_time=None, close_time=None):
-        update_fields = {}
-        if open_time is not None:
-            update_fields[f"{day}.open"] = open_time
-        if close_time is not None:
-            update_fields[f"{day}.close"] = close_time
-
-        if not update_fields:
-            raise Exception("Nenhum horário informado para atualizar.")
-
+    def update_schedule(self, restaurant_id, day, open_time, close_time):
+        update_fields = {
+            f"{day}.open": open_time,
+            f"{day}.close": close_time
+        }
+        
         result = self.schedule.update_one(
             {"restaurant_id": restaurant_id},
             {"$set": update_fields}
         )
+        
         if result.matched_count == 0:
             raise Exception("Horário não encontrado para esse restaurante.")
         return True
@@ -137,3 +134,16 @@ class UsersRepository:
             user['_id'] = str(user['_id'])
         return user
         
+    def get_schedule_by_email(self, email: str):
+        user = self.users.find_one({"email": email})
+        
+        
+        schedule = self.schedule.find_one({"restaurant_id": user["_id"]})
+        
+        if not schedule:
+            return None 
+        
+        schedule["_id"] = str(schedule["_id"])
+        schedule["restaurant_id"] = str(schedule["restaurant_id"])
+        
+        return schedule

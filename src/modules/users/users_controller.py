@@ -143,3 +143,14 @@ def signup():
         return {"success": True, "message": "Usuário criado com sucesso", "data": result}, 201
     except Exception as e:
         return {"success": False, "error": str(e)}, 400
+    
+@users_bp.route('/users/<email>/schedule', methods=['GET'])
+def get_schedule(email):
+    repository = UsersRepository()
+    usecase = UsersUseCase(repository)
+
+    try:
+        schedule = usecase.get_schedule(email)
+        return schedule, 200
+    except Exception as e:
+        return {"error": str(e)}, 400

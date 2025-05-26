@@ -105,3 +105,10 @@ class UsersUseCase:
             return { "valid": False }
         except jwt.InvalidTokenError:
             return { "valid": False }
+        
+    def get_schedule(self, email: str):
+        try:
+            schedule = self.repo.get_schedule_by_email(email)
+            return schedule
+        except Exception as e:
+            return e
