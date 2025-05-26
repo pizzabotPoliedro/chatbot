@@ -88,6 +88,7 @@ class UsersUseCase:
         
         payload = {
             "sub": user["_id"],
+            "phone": user["phone"],
             "name": user["name"],
             "email": user["email"],
             "restaurant": user["restaurant"],
