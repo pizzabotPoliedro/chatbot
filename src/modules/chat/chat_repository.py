@@ -51,7 +51,7 @@ class ChatRepository:
                 history.append(AIMessage(content=msg["message"]))
 
         messages = [
-            SystemMessage(content="Você é um assistente de um restaurante.")
+            SystemMessage(content="Você é um assistente de um restaurante. Caso o usuário pergunte sobre o cardápio ou sobre horários de funcionamento, diga que um modal será aberto na tela dele, para ele visualizar.")
         ] + history + [
             HumanMessage(content=message)
         ]
