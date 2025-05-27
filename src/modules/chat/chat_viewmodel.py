@@ -11,6 +11,7 @@ class ChatViewModel(BaseModel):
     user_id: str
     order: bool = False
     menu: bool = False
+    schedule: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(brt))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(brt))
 

@@ -38,6 +38,7 @@ class ChatUseCase:
                 message=ai_message["message"],
                 menu=ai_message["menu"],
                 order=ai_message["order"],
+                schedule=ai_message["schedule"],
                 restaurant=ai_message["restaurant"],
                 user_id=ai_message["user_id"],
                 type="ai",
@@ -47,6 +48,7 @@ class ChatUseCase:
                 message=ai_message_entity.message,
                 menu=ai_message_entity.menu,
                 order=ai_message_entity.order,
+                schedule=ai_message_entity.schedule,
                 restaurant=ai_message_entity.restaurant,
                 user_id=ai_message_entity.user_id,
                 type=ai_message_entity.type,
@@ -56,6 +58,7 @@ class ChatUseCase:
                 message=message.message,
                 restaurant=message.restaurant,
                 user_id=message.user_id,
+                schedule=message.schedule,
                 type="human",
                 created_at=message.created_at,
                 updated_at=message.updated_at
