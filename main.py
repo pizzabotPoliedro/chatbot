@@ -3,6 +3,7 @@ from src.modules.health.health_controller import health_bp
 from src.modules.chat.chat_controller import chat_bp
 from src.modules.users.users_controller import users_bp
 from src.shared.infra.environments import Environments
+from src.modules.orders.orders_controller import orders_bp
 
 from flask_cors import CORS
 
@@ -17,6 +18,9 @@ app.register_blueprint(chat_bp)
 
 # users
 app.register_blueprint(users_bp)
+
+# orders
+app.register_blueprint(orders_bp)
 
 if __name__ == '__main__':
     Environments()
