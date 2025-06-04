@@ -7,4 +7,3 @@ class OrdersViewModel(BaseModel):
     restaurant_id: str
     status: str
     created_at: str
-    updated_at: str
