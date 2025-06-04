@@ -5,7 +5,7 @@ from modules.orders.orders_usecase import OrdersUseCase
 
 orders_bp = Blueprint('orders', __name__)
 
-@order_bp.route('/', methods=['GET'])
+@orders_bp.route('/', methods=['GET'])
 def make_order():
     repository = OrdersRepository()
     usecase = OrdersUseCase(repository)
