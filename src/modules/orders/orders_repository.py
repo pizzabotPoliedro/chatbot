@@ -1,6 +1,9 @@
 from datetime import datetime, timedelta, timezone
 import os
+from bson import ObjectId
 from pymongo import MongoClient
+
+from src.shared.enums.order_status import OrderStatus
 
 
 class OrdersRepository:
@@ -16,9 +19,9 @@ class OrdersRepository:
     def calculate_total(self, order_items: list):
         total = 0.0
         for item in order_items:
-            item_data = self.items.find_one({"_id": item["item_id"]})
+            item_data = self.items.find_one({"_id": ObjectId(item["item_id"])})
             if item_data:
-                total += item_data["item_price"] * item["quantity"]
+                total += float(item_data["price"]) * item["quantity"]
             else:
                 raise ValueError(f"Item {item['item_id']} não encontrado.")
         return total
@@ -28,29 +31,56 @@ class OrdersRepository:
         order_restaurant_id = order["restaurant_id"]
         order_user_id = order["user_id"]
 
-        restaurant_exists = self.users.find_one({"_id": order_restaurant_id})
+        restaurant_exists = self.users.find_one({"_id": ObjectId(order_restaurant_id)})
         if not restaurant_exists:
             raise ValueError("Restaurante não encontrado.")
         
-        user_exists = self.users.find_one({"_id": order_user_id})
+        user_exists = self.users.find_one({"_id": ObjectId(order_user_id)})
         if not user_exists:
             raise ValueError("Usuário não encontrado.")
         
         for item in order_items:
-            item_exists = self.items.find_one({"_id": item["item_id"], "restaurant_id": order_restaurant_id})
+            item_exists = self.items.find_one({"_id": ObjectId(item["item_id"]), "restaurant_id": order_restaurant_id})
             if not item_exists:
                 raise ValueError(f"Item {item['item_id']} não encontrado no restaurante {order_restaurant_id}.")
             
         order_data = {
             "items": order_items,
             "total": self.calculate_total(order_items),
-            "user_id": order_user_id,
-            "restaurant_id": order_restaurant_id,
-            "status": "pending",
+            "user_id": str(order_user_id),
+            "restaurant_id": str(order_restaurant_id),
+            "status": OrderStatus.PENDING.value,
             "created_at": datetime.now(self.timezone),
         }
 
         self.orders.insert_one(order_data)
         
         return order_data
-        
+    
+    def get_order_by_user(self, user_id: str):
+        orders_cursor = self.orders.find({"user_id": user_id})
+        orders = list(orders_cursor)
+        if not orders:
+            raise ValueError("Pedidos não encontrados.")
+        for o in orders:
+            o["_id"] = str(o["_id"])
+        return orders
+
+    def get_order_by_restaurant(self, restaurant_id: str):
+        orders_cursor = self.orders.find({"restaurant_id": restaurant_id})
+        orders = list(orders_cursor)
+        if not orders:
+            raise ValueError("Pedidos não encontrados.")
+        for o in orders:
+            o["_id"] = str(o["_id"])
+        return orders
+    
+    def set_order_status(self, order_id: str, status: str):
+        order_exists = self.orders.find_one({"_id": ObjectId(order_id)})
+
+        result = self.orders.update_one(
+            {"_id": ObjectId(order_id)},
+            {"$set": {"status": status}}
+        )
+        order_exists = self.orders.find_one({"_id": ObjectId(order_id)})
+        return order_exists
