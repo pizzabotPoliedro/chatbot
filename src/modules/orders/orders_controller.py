@@ -13,11 +13,11 @@ def make_order():
 
     return result, 200
 
-@orders_bp.route('/orders/<user_id>', methods=['GET'])
-def get_order_by_user_id(user_id):
+@orders_bp.route('/orders/<user_id>/<restaurant_id>', methods=['GET'])
+def get_order_by_user_id(user_id, restaurant_id = None):
     repository = OrdersRepository()
     usecase = OrdersUseCase(repository)
-    result = usecase.get_order_by_user(user_id)
+    result = usecase.get_order_by_user(user_id, restaurant_id)
 
     return result, 200
 
@@ -38,5 +38,17 @@ def set_order_status(order_id):
     repository = OrdersRepository()
     usecase = OrdersUseCase(repository)
     result = usecase.set_order_status(order_id, status)
+
+    return result, 200
+
+@orders_bp.route('/orders/<user_id>/restaurant_id', methods=['GET'])
+def get_order_by_user_and_restaurant(user_id, restaurant_id):
+    restaurant_id = request.args.get('restaurant_id')
+    if not restaurant_id:
+        return {"error": "O ID do restaurante é obrigatório!"}, 400
+
+    repository = OrdersRepository()
+    usecase = OrdersUseCase(repository)
+    result = usecase.get_order_by_user_and_restaurant(user_id, restaurant_id)
 
     return result, 200

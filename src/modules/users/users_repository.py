@@ -75,7 +75,7 @@ class UsersRepository:
         if not user:
             raise Exception("Usuário não encontrado")
 
-        FIELDS_NOT_ALLOWED = ["email", "_id", "admin", "created_at", "updated_at", "restaurant"]
+        FIELDS_NOT_ALLOWED = ["_id", "created_at", "updated_at"]
         forbidden_fields = [field for field in update_data if field in FIELDS_NOT_ALLOWED]
         if forbidden_fields:
             raise Exception(f"Não é permitido alterar os campos: {', '.join(forbidden_fields)}")
@@ -178,5 +178,34 @@ class UsersRepository:
         
         if not items:
             raise Exception("Nenhum item encontrado para este restaurante")
+        
+        return {"items": items, "restaurant_id": restaurant_id}
+    
+    def activate_item(self, item_id, active: bool):
+        try:
+            object_id = ObjectId(item_id)
+        except:
+            raise Exception("ID de item inválido")
+
+        item = self.items.find_one({"_id": object_id})
+        if not item:
+            raise Exception("Item não encontrado")
+
+        result = self.items.update_one(
+            {"_id": object_id},
+            {"$set": {"active": active}}
+        )
+        
+        if result.matched_count == 0:
+            raise Exception("Erro ao atualizar o status do item")
+        
+        return {"message": "Status do item atualizado com sucesso"}
+    
+    def get_activated_menu(self, restaurant_id):
+        items = list(self.items.find({"restaurant_id": restaurant_id, "active": True}))
+        
+        for item in items:
+            item["_id"] = str(item["_id"])
+        
         
         return {"items": items, "restaurant_id": restaurant_id}

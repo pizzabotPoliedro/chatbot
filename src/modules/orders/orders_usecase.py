@@ -12,9 +12,9 @@ class OrdersUseCase:
         except Exception as e:
             raise Exception(f"Erro ao fazer pedido: {str(e)}")
 
-    def get_order_by_user(self, user_id: str):
+    def get_order_by_user(self, user_id: str, restaurant_id: str = None):
         try:
-            order = self.repo.get_order_by_user(user_id)
+            order = self.repo.get_order_by_user(user_id, restaurant_id)
             for o in order:
                 o["_id"] = str(o["_id"])
             return order
@@ -37,3 +37,5 @@ class OrdersUseCase:
             return updated_order
         except Exception as e:
             raise Exception(f"Erro ao atualizar status do pedido: {str(e)}")
+        
+    

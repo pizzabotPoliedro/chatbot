@@ -92,6 +92,7 @@ class UsersUseCase:
             "name": user["name"],
             "email": user["email"],
             "restaurant": user["restaurant"],
+            "admin": user["admin"],
             "exp": datetime.now(timezone.utc) + timedelta(minutes=1440)
         }
         token = jwt.encode(payload, self.secret_key, algorithm="HS256")
@@ -134,3 +135,17 @@ class UsersUseCase:
             return menu
         except Exception as e:
             raise e
+        
+    def activate_item(self, item_id: str, active: bool = True):
+        try:
+            result = self.repo.activate_item(item_id, active)
+            return result
+        except Exception as e:
+            return e
+        
+    def get_activated_menu(self, restaurant_id: str):
+        try:
+            menu = self.repo.get_activated_menu(restaurant_id)
+            return menu
+        except Exception as e:
+            raise Exception(f"Erro ao obter menu ativado: {str(e)}")

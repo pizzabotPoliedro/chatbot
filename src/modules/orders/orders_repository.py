@@ -50,27 +50,30 @@ class OrdersRepository:
             "user_id": str(order_user_id),
             "restaurant_id": str(order_restaurant_id),
             "status": OrderStatus.PENDING.value,
-            "created_at": datetime.now(self.timezone),
+            "created_at": datetime.now(self.timezone.utc),
         }
 
         self.orders.insert_one(order_data)
         
         return order_data
     
-    def get_order_by_user(self, user_id: str):
-        orders_cursor = self.orders.find({"user_id": user_id})
+    def get_order_by_user(self, user_id: str, restaurant_id: str = None):
+        query = {"user_id": user_id}
+        if restaurant_id:
+            query["restaurant_id"] = restaurant_id
+        
+        orders_cursor = self.orders.find(query)
         orders = list(orders_cursor)
-        if not orders:
-            raise ValueError("Pedidos não encontrados.")
+        
         for o in orders:
             o["_id"] = str(o["_id"])
+        
         return orders
 
     def get_order_by_restaurant(self, restaurant_id: str):
         orders_cursor = self.orders.find({"restaurant_id": restaurant_id})
         orders = list(orders_cursor)
-        if not orders:
-            raise ValueError("Pedidos não encontrados.")
+
         for o in orders:
             o["_id"] = str(o["_id"])
         return orders
@@ -84,3 +87,12 @@ class OrdersRepository:
         )
         order_exists = self.orders.find_one({"_id": ObjectId(order_id)})
         return order_exists
+    
+    def get_order_by_user_and_restaurant(self, user_id: str, restaurant_id: str):
+        orders_cursor = self.orders.find({"user_id": user_id, "restaurant_id": restaurant_id})
+        orders = list(orders_cursor)
+        if not orders:
+            raise ValueError("Pedidos não encontrados.")
+        for o in orders:
+            o["_id"] = str(o["_id"])
+        return orders

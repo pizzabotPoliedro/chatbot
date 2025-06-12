@@ -67,6 +67,16 @@ def update_user(email):
 
     if request.content_type.startswith('multipart/form-data'):
         data = request.form.to_dict()
+        if data.get('restaurant') is not None:
+            if data['restaurant'] == 'true' or data['restaurant'] == 'True':
+                data['restaurant'] = True
+            else:
+                data['restaurant'] = False
+        if data.get('admin') is not None:
+            if data['admin'] == 'true' or data['admin'] == 'True':
+                data['admin'] = True
+            else:
+                data['admin'] = False
         if 'image' in request.files:
             image_bytes = request.files['image'].read()
             data['image'] = image_to_base64(image_bytes)
@@ -178,7 +188,8 @@ def add_item_to_menu():
         "price": data['price'],
         "description": data['description'],
         "image": data['image'],
-        "restaurant_id": data['restaurant_id']
+        "restaurant_id": data['restaurant_id'],
+        "active": True
     }
 
     try:
@@ -200,3 +211,23 @@ def get_menu(id):
     usecase = UsersUseCase(repository)
     result = usecase.get_menu(id)
     return result, 200
+
+@users_bp.route('/menu/active/<id>', methods=['PUT'])
+def activate_item(id):
+    repository = UsersRepository()
+    usecase = UsersUseCase(repository)
+    data = request.json
+
+    if 'active' not in data:
+        return {"error": "O campo 'active' é obrigatório"}, 400
+    result = usecase.activate_item(id, data['active'])
+    return result, 200
+
+@users_bp.route('/menu/<restaurant_id>/activated', methods=['GET'])
+def get_activated_menu(restaurant_id):
+    repository = UsersRepository()
+    usecase = UsersUseCase(repository)
+
+    menu = usecase.get_activated_menu(restaurant_id)
+    return menu, 200
+
