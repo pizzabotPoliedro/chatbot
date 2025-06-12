@@ -64,12 +64,6 @@ bash
 npm start  # Inicia o servidor
 ````
   
-# 🌐 Rotas da API
-POST /api/chat
-
-Body: { "message": "Texto do usuário" }
-
-Resposta: { "reply": "Resposta do chatbot" }
 
 # 📌 Dependências Principais
 Express: Framework para o servidor Node.js
